@@ -13,11 +13,11 @@ function App() {
 
   const getResponse = () => {
     setIsLoading(true);
-    fetch(`http://cv.lskpengantin.id/getResponse?filename=${fileUrl}`)
+    fetch(`https://cv.lskpengantin.id/getResponse?filename=${fileUrl}`)
       .then((res) => res.json())
       .then((data) => {
         setResponse(data);
-        setImgUrl(`http://cv.lskpengantin.id/output/${data.filename}`);
+        setImgUrl(`https://cv.lskpengantin.id/output/${data.filename}`);
         setIsSubmitted(true);
         setIsLoading(false);
       });
@@ -28,7 +28,7 @@ function App() {
     setUploadLoading(true);
     const formData = new FormData(e.target);
     const xhr = new XMLHttpRequest();
-    await xhr.open("POST", "http://cv.lskpengantin.id/upload");
+    await xhr.open("POST", "https://cv.lskpengantin.id/upload");
     xhr.send(formData);
 
     xhr.onload = () => {
