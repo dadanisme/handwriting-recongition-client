@@ -35,6 +35,7 @@ export default function Slider() {
     return (
       <div>
         <Carousel
+          interval={null}
           className="vh-100"
           activeIndex={index}
           onSelect={handleSelect}
