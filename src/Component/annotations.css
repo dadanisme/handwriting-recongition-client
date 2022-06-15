@@ -1,0 +1,13 @@
+.responses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: scroll;
+  height: 100%;
+  width: 90%;
+}
+
+.responses::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
