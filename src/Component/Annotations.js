@@ -16,10 +16,27 @@ export default function Annotations(props) {
   };
 
   const [response, setResponse] = useState({});
+  const [translated, setTranslated] = useState("");
+  const [originLanguage, setOriginLanguage] = useState("");
 
   useEffect(() => {
     setResponse(props.response);
   }, [response, props]);
+
+  useEffect(() => {
+    if (response.results !== undefined) {
+      const text = response.results[0].text.replace(/[^\w\s]/gi, "");
+      fetch("https://cv.lskpengantin.id/translate?text=" + text)
+        .then((res) => res.json())
+        .then((data) => {
+          setTranslated(data.translatedText);
+          const languageNames = new Intl.DisplayNames(["en"], {
+            type: "language",
+          });
+          setOriginLanguage(languageNames.of(data.detectedSourceLanguage));
+        });
+    }
+  }, [response]);
 
   return (
     <div style={containerStyle}>
@@ -27,15 +44,25 @@ export default function Annotations(props) {
       {JSON.stringify(response) !== "{}" ? (
         <div className="responses">
           <div className="full-text">
-            <h3>
-              <Badge bg="dark">Full Text Annotation</Badge>
-            </h3>
+            <h4>
+              <strong>Full Text Annotation</strong>
+            </h4>
             <p>{response.results[0].text}</p>
           </div>
 
-          <h3>
-            <Badge bg="dark">Words</Badge>
-          </h3>
+          <div className="full-text">
+            <h4>
+              <strong>
+                Full Text Translated from{" "}
+                <Badge bg="danger">{originLanguage}</Badge>
+              </strong>
+            </h4>
+            <p>{translated}</p>
+          </div>
+
+          <h4>
+            <strong>Words</strong>
+          </h4>
           {response.results.map((result, index) => (
             <span key={index} className="m-1 words">
               {index > 0 ? <Badge bg="danger">{result.text}</Badge> : ""}
