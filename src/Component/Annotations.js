@@ -19,6 +19,57 @@ export default function Annotations(props) {
   const [translated, setTranslated] = useState("");
   const [originLanguage, setOriginLanguage] = useState("");
 
+  const variants = [
+    {
+      bg: "primary",
+      text: "light",
+    },
+    {
+      bg: "secondary",
+      text: "light",
+    },
+    {
+      bg: "success",
+      text: "light",
+    },
+    {
+      bg: "danger",
+      text: "light",
+    },
+    {
+      bg: "warning",
+      text: "light",
+    },
+    {
+      bg: "info",
+      text: "light",
+    },
+    {
+      bg: "light",
+      text: "dark",
+    },
+    {
+      bg: "dark",
+      text: "light",
+    },
+    {
+      bg: "warning",
+      text: "dark",
+    },
+    {
+      bg: "danger",
+      text: "dark",
+    },
+    {
+      bg: "info",
+      text: "dark",
+    },
+    {
+      bg: "success",
+      text: "dark",
+    },
+  ];
+
   useEffect(() => {
     setResponse(props.response);
   }, [response, props]);
@@ -30,7 +81,7 @@ export default function Annotations(props) {
         .then((res) => res.json())
         .then((data) => {
           setTranslated(data.translatedText);
-          const languageNames = new Intl.DisplayNames(["en"], {
+          const languageNames = new Intl.DisplayNames(["id"], {
             type: "language",
           });
           setOriginLanguage(languageNames.of(data.detectedSourceLanguage));
@@ -45,7 +96,7 @@ export default function Annotations(props) {
         <div className="responses">
           <div className="full-text">
             <h4>
-              <strong>Full Text Annotation</strong>
+              <strong>Full Text</strong>
             </h4>
             <p>{response.results[0].text}</p>
           </div>
@@ -53,8 +104,12 @@ export default function Annotations(props) {
           <div className="full-text">
             <h4>
               <strong>
-                Full Text Translated from{" "}
-                <Badge bg="danger">{originLanguage}</Badge>
+                Full Text, diterjemahkan dari{" "}
+                <Badge
+                  {...variants[Math.floor(Math.random() * variants.length)]}
+                >
+                  bahasa {originLanguage}
+                </Badge>
               </strong>
             </h4>
             <p>{translated}</p>
@@ -65,12 +120,20 @@ export default function Annotations(props) {
           </h4>
           {response.results.map((result, index) => (
             <span key={index} className="m-1 words">
-              {index > 0 ? <Badge bg="danger">{result.text}</Badge> : ""}
+              {index > 0 ? (
+                <Badge
+                  {...variants[Math.floor(Math.random() * variants.length)]}
+                >
+                  {result.text}
+                </Badge>
+              ) : (
+                ""
+              )}
             </span>
           ))}
         </div>
       ) : (
-        <h4>No annotations, upload first</h4>
+        <h4>Silakan upload dulu kak:{")"}</h4>
       )}
     </div>
   );

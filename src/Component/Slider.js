@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Carousel } from "react-bootstrap";
 import FileUpload from "./FileUpload";
 import Output from "./Output";
@@ -8,6 +8,17 @@ export default function Slider() {
   const [index, setIndex] = useState(0);
   const [filename, setFilename] = useState("");
   const [response, setResponse] = useState({});
+  const [carouselVariant, setCarouselVariant] = useState("");
+
+  useEffect(() => {
+    if (index === 6) {
+      setCarouselVariant("dark");
+    } else if (index % 2 === 1) {
+      setCarouselVariant("dark");
+    } else {
+      setCarouselVariant("light");
+    }
+  }, [index]);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
@@ -35,6 +46,7 @@ export default function Slider() {
     return (
       <div>
         <Carousel
+          variant={carouselVariant}
           interval={null}
           className="vh-100"
           activeIndex={index}

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Badge, Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import "./form_placeholder.css";
 
 export default function FileUpload(props) {
@@ -21,16 +21,11 @@ export default function FileUpload(props) {
 
   const [isUpload, setIsUpload] = useState(false);
   const [filePath, setFilePath] = useState("");
-  const [formPlaceholder, setFormPlaceholder] = useState(
-    "Drag and drop your file here"
-  );
-  const [status, setStatus] = useState("no file uploaded");
-  const [statusBg, setStatusBg] = useState("dark");
+  const [status, setStatus] = useState("Upload file yang akan dianotasi");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("uploading...");
-    setStatusBg("warning");
+    setStatus("Mengupload...");
     const formData = new FormData(e.target);
     const xhr = new XMLHttpRequest();
     await xhr.open("POST", "https://cv.lskpengantin.id/upload");
@@ -39,14 +34,14 @@ export default function FileUpload(props) {
     xhr.onload = () => {
       setIsUpload(true);
       setFilePath(JSON.parse(xhr.responseText).filename);
-      setStatus("file uploaded");
-      setStatusBg("success");
+      setStatus(
+        `Upload berhasil, lihat hasilnya di slide selanjutnya. Klik untuk upload ulang`
+      );
     };
   };
 
   const handleChange = (e) => {
     setFilePath(e.target.files[0].name);
-    setFormPlaceholder(e.target.files[0].name);
     formRef.current.click();
   };
 
@@ -70,9 +65,7 @@ export default function FileUpload(props) {
         onSubmit={handleSubmit}
       >
         <div className="input-label">
-          <h3 style={{ maxWidth: "90%", textAlign: "center" }}>
-            {formPlaceholder}
-          </h3>
+          <h4 style={{ maxWidth: "90%", textAlign: "center" }}>{status}</h4>
         </div>
         <Form.Control
           id="file"
@@ -95,9 +88,6 @@ export default function FileUpload(props) {
           submit
         </Button>
       </form>
-      <div className="upload-status">
-        <Badge bg={statusBg}>{status}</Badge>
-      </div>
     </div>
   );
 }

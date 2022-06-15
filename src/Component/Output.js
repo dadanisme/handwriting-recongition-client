@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Badge, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "./output.css";
 
 export default function Output(props) {
@@ -64,9 +64,9 @@ export default function Output(props) {
         See Result
       </Button>
       {filename === "" ? (
-        <h1>
-          <Badge bg="outline-light">Upload to see result!</Badge>
-        </h1>
+        <h4 style={{ color: "var(--bs-light)" }}>
+          Oops! Output masih kosong, upload dulu ya di sebelah!
+        </h4>
       ) : (
         ""
       )}
