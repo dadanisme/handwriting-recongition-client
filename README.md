@@ -1,6 +1,6 @@
 # How to run client
 
-This will need a `server` to run, so consider provide one. Here is the server repository [https://github.com/dadanisme/handwriting-recognition-server](https://github.com/dadanisme/handwriting-recognition-server)
+This will needs a `server` to run, so consider provide one. Here is the server repository [https://github.com/dadanisme/handwriting-recognition-server](https://github.com/dadanisme/handwriting-recognition-server)
 
 ## Clone this repository
 
