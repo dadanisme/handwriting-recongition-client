@@ -70,6 +70,12 @@ export default function Annotations(props) {
     },
   ];
 
+  const [server, setServer] = useState("");
+
+  useEffect(() => {
+    setServer(props.server);
+  }, [props.server]);
+
   useEffect(() => {
     setResponse(props.response);
   }, [response, props]);
@@ -77,7 +83,7 @@ export default function Annotations(props) {
   useEffect(() => {
     if (response.results !== undefined) {
       const text = response.results[0].text.replace(/[^\w\s]/gi, "");
-      fetch("https://cv.lskpengantin.id/translate?text=" + text)
+      fetch(server + "/translate?text=" + text)
         .then((res) => res.json())
         .then((data) => {
           setTranslated(data.translatedText);
@@ -87,7 +93,7 @@ export default function Annotations(props) {
           setOriginLanguage(languageNames.of(data.detectedSourceLanguage));
         });
     }
-  }, [response]);
+  }, [response, server]);
 
   return (
     <div style={containerStyle}>

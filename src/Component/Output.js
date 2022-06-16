@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import "./output.css";
 
 export default function Output(props) {
@@ -18,19 +19,28 @@ export default function Output(props) {
 
   const getResponseRef = useRef();
 
+  const [server, setServer] = useState("");
+
+  useEffect(() => {
+    setServer(props.server);
+  }, [props.server]);
+
   const [filename, setFilename] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [response, setResponse] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getResponse = async () => {
     try {
-      await fetch(`https://cv.lskpengantin.id/getResponse?filename=${filename}`)
+      setLoading(true);
+      await fetch(`${server}/getResponse?filename=${filename}`)
         .then((res) => res.json())
         .then((data) => {
           setResponse(data);
-          setImgUrl(`https://cv.lskpengantin.id/output/${data.filename}`);
+          setImgUrl(`${server}/output/${data.filename}`);
           setIsSubmitted(true);
+          setLoading(false);
         });
     } catch (error) {
       console.clear();
@@ -51,32 +61,50 @@ export default function Output(props) {
     }
   }, [filename]);
 
-  return (
-    <div style={containerStyle}>
-      <Button
-        ref={getResponseRef}
-        style={{
-          display: "none",
-        }}
-        variant="light"
-        onClick={getResponse}
-      >
-        See Result
-      </Button>
-      {filename === "" ? (
-        <h4 style={{ color: "var(--bs-light)" }}>
-          Oops! Output masih kosong, upload dulu ya di sebelah!
-        </h4>
-      ) : (
-        ""
-      )}
-      {isSubmitted ? (
-        <div className="image-container">
-          <img src={imgUrl} alt={filename} />
-        </div>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+  if (loading) {
+    return (
+      <div style={containerStyle}>
+        <Spinner animation="border" variant="light" />
+        <Button
+          ref={getResponseRef}
+          style={{
+            display: "none",
+          }}
+          variant="light"
+          onClick={getResponse}
+        >
+          See Result
+        </Button>
+      </div>
+    );
+  } else {
+    return (
+      <div style={containerStyle}>
+        <Button
+          ref={getResponseRef}
+          style={{
+            display: "none",
+          }}
+          variant="light"
+          onClick={getResponse}
+        >
+          See Result
+        </Button>
+        {filename === "" ? (
+          <h4 style={{ color: "var(--bs-light)" }}>
+            Oops! Output masih kosong, upload dulu ya di sebelah!
+          </h4>
+        ) : (
+          ""
+        )}
+        {isSubmitted ? (
+          <div className="image-container">
+            <img src={imgUrl} alt={filename} />
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
 }

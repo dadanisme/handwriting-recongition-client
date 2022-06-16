@@ -16,6 +16,12 @@ export default function FileUpload(props) {
     alignItems: "center",
   };
 
+  const [server, setServer] = useState("");
+
+  useEffect(() => {
+    setServer(props.server);
+  }, [props.server]);
+
   const formRef = useRef();
   const getResponseRef = useRef();
 
@@ -28,7 +34,7 @@ export default function FileUpload(props) {
     setStatus("Mengupload...");
     const formData = new FormData(e.target);
     const xhr = new XMLHttpRequest();
-    await xhr.open("POST", "https://cv.lskpengantin.id/upload");
+    await xhr.open("POST", server + "/upload");
     xhr.send(formData);
 
     xhr.onload = () => {
@@ -59,7 +65,7 @@ export default function FileUpload(props) {
           height: "100%",
         }}
         method="POST"
-        action="https://cv.lskpengantin.id/upload"
+        action={server + "/upload"}
         id="form"
         encType="multipart/form-data"
         onSubmit={handleSubmit}

@@ -4,7 +4,7 @@ import FileUpload from "./FileUpload";
 import Output from "./Output";
 import Annotations from "./Annotations";
 
-export default function Slider() {
+export default function Slider(props) {
   const [index, setIndex] = useState(0);
   const [filename, setFilename] = useState("");
   const [response, setResponse] = useState({});
@@ -116,7 +116,10 @@ export default function Slider() {
             }}
           >
             <div style={slideStyle}>
-              <FileUpload onUpload={handleInputFileName} />
+              <FileUpload
+                onUpload={handleInputFileName}
+                server={props.server}
+              />
             </div>
           </Carousel.Item>
 
@@ -128,7 +131,11 @@ export default function Slider() {
             }}
           >
             <div style={slideStyle}>
-              <Output filename={filename} onResponse={handleResponse} />
+              <Output
+                filename={filename}
+                onResponse={handleResponse}
+                server={props.server}
+              />
             </div>
           </Carousel.Item>
 
@@ -140,7 +147,7 @@ export default function Slider() {
             }}
           >
             <div style={slideStyle}>
-              <Annotations response={response} />
+              <Annotations response={response} server={props.server} />
             </div>
           </Carousel.Item>
 
