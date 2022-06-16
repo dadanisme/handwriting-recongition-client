@@ -47,8 +47,11 @@ export default function FileUpload(props) {
   };
 
   const handleChange = (e) => {
-    setFilePath(e.target.files[0].name);
-    formRef.current.click();
+    if (e.target.files[0] !== undefined) {
+      formRef.current.click();
+    } else {
+      setStatus("Upload file yang akan dianotasi");
+    }
   };
 
   useEffect(() => {
