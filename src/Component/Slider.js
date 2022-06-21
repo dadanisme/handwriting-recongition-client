@@ -5,11 +5,13 @@ import Output from "./Output";
 import Annotations from "./Annotations";
 
 export default function Slider(props) {
+  // states
   const [index, setIndex] = useState(0);
   const [filename, setFilename] = useState("");
   const [response, setResponse] = useState({});
   const [carouselVariant, setCarouselVariant] = useState("");
 
+  // ganti warna per slide
   useEffect(() => {
     if (index === 6) {
       setCarouselVariant("dark");
@@ -20,18 +22,22 @@ export default function Slider(props) {
     }
   }, [index]);
 
+  // handle carousel (slide)
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
 
+  // handle file upload
   const handleInputFileName = (filename) => {
     setFilename(filename);
   };
 
+  // handle response
   const handleResponse = (response) => {
     setResponse(response);
   };
 
+  // slider style
   const slideStyle = {
     width: "100%",
     height: "100%",
@@ -40,6 +46,7 @@ export default function Slider(props) {
     alignItems: "center",
   };
 
+  // if width < 800px
   if (window.innerWidth < 800) {
     alert("Please use a larger screen to view the slider");
   } else {
